@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundación Soporte Social - Recetas, Talleres y Comunidad</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fundacion: {
+                            verde: '#10B981', // Verde vibrante
+                            rosado: '#EC4899', // Rosado distintivo
+                            azul: '#38BDF8', // Azul claro
+                            amarillo: '#FACC15', // Amarillo alegre
+                            oscuro: '#1E293B',
+                            claro: '#F8FAFC'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-gradient {
+            background: linear-gradient(135deg, #10B981 0%, #38BDF8 33%, #EC4899 66%, #FACC15 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-fundacion-rosado selection:text-white">
+
+    <!-- Notificación / Mensaje flotante personalizado (Evita alert) -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-32 opacity-0 transition-all duration-300 bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-fundacion-verde text-xl"></i>
+        <span id="toast-message" class="text-sm font-medium">¡Acción realizada con éxito!</span>
+    </div>
+
+    <!-- Barra de Navegación -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-2xl custom-gradient flex items-center justify-center text-white font-extrabold text-2xl shadow-md">
+                    SS
+                </div>
+                <div>
+                    <span class="block font-bold text-lg text-slate-900 tracking-tight leading-none">Fundación</span>
+                    <span class="block text-xs font-semibold text-fundacion-rosado uppercase tracking-widest mt-1">Soporte Social</span>
+                </div>
+            </div>
+            
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-600">
+                <a href="#receta" class="hover:text-fundacion-verde transition-colors">Receta Comunitaria</a>
+                <a href="#videos" class="hover:text-fundacion-rosado transition-colors">Videos y Testimonios</a>
+                <a href="#cartilla" class="hover:text-fundacion-azul transition-colors">Cartilla PDF</a>
+                <a href="#audios" class="hover:text-fundacion-amarillo transition-colors">Audios</a>
+                <a href="#galeria" class="hover:text-fundacion-verde transition-colors">Galería Talleres</a>
+                <a href="#weebly-guide" class="bg-fundacion-oscuro text-white px-4 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">Paso a paso Weebly</a>
+            </nav>
+
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="text-slate-700 p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 px-4 pt-2 pb-4 space-y-2">
+            <a href="#receta" class="block py-2 text-slate-700 font-medium border-b border-slate-50">Receta Comunitaria</a>
+            <a href="#videos" class="block py-2 text-slate-700 font-medium border-b border-slate-50">Videos y Testimonios</a>
+            <a href="#cartilla" class="block py-2 text-slate-700 font-medium border-b border-slate-50">Cartilla PDF</a>
+            <a href="#audios" class="block py-2 text-slate-700 font-medium border-b border-slate-50">Audios</a>
+            <a href="#galeria" class="block py-2 text-slate-700 font-medium border-b border-slate-50">Galería Talleres</a>
+            <a href="#weebly-guide" class="block py-2 text-fundacion-rosado font-bold">Guía para Weebly</a>
+        </div>
+    </header>
+
+    <!-- Hero / Portada -->
+    <section class="relative overflow-hidden py-16 lg:py-24 bg-gradient-to-b from-slate-100 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="inline-flex items-center space-x-2 bg-fundacion-amarillo/20 text-yellow-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-6 border border-fundacion-amarillo/40">
+                <i class="fa-solid fa-heart text-fundacion-rosado"></i>
+                <span>Construyendo comunidad, saberes y tradiciones</span>
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto">
+                Espacio de Encuentros, <span class="text-transparent bg-clip-text custom-gradient">Sabores y Memorias</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">
+                Bienvenidos a la plataforma interactiva de la <strong class="text-slate-800">Fundación Soporte Social</strong>. Explora nuestras recetas comunitarias, cartillas pedagógicas, videos de participantes y registros fotográficos.
+            </p>
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                <a href="#receta" class="px-8 py-4 bg-fundacion-verde text-white font-bold rounded-2xl shadow-lg shadow-fundacion-verde/30 hover:bg-emerald-600 transition transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-utensils mr-2"></i> Ver Receta Estrella
+                </a>
+                <a href="#videos" class="px-8 py-4 bg-fundacion-rosado text-white font-bold rounded-2xl shadow-lg shadow-fundacion-rosado/30 hover:bg-pink-600 transition transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-video mr-2"></i> Ver Videos Grabados
+                </a>
+            </div>
+        </div>
+        <!-- Cintas de colores institucionales -->
+        <div class="absolute bottom-0 left-0 right-0 h-2 grid grid-cols-4">
+            <div class="bg-fundacion-verde"></div>
+            <div class="bg-fundacion-amarillo"></div>
+            <div class="bg-fundacion-azul"></div>
+            <div class="bg-fundacion-rosado"></div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 1: RECETA -->
+    <section id="receta" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center space-x-3 mb-8">
+            <div class="w-10 h-10 rounded-xl bg-fundacion-verde/20 text-fundacion-verde flex items-center justify-center text-xl font-bold">
+                <i class="fa-solid fa-bowl-food"></i>
+            </div>
+            <div>
+                <span class="text-xs font-bold text-fundacion-verde tracking-wider uppercase">Sabores de la Fundación</span>
+                <h2 class="text-3xl font-extrabold text-slate-900">Receta Comunitaria Destacada</h2>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            <div class="lg:col-span-5 relative min-h-[300px] lg:min-h-full bg-slate-200">
+                <img src="https://placehold.co/800x1000/10B981/ffffff?text=Sopa+Tradicional+Comunitaria" alt="Receta Tradicional" class="w-full h-full object-cover">
+                <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl text-xs font-bold text-slate-800 shadow">
+                    <i class="fa-solid fa-clock text-fundacion-verde mr-1"></i> 45 Minutos
+                </div>
+            </div>
+            <div class="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">Plato Tradicional</span>
+                        <div class="flex space-x-1 text-fundacion-amarillo">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-3xl font-extrabold text-slate-900 mb-4">Sancocho Comunitario de la Abuela</h3>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Esta receta fue recopilada durante nuestro segundo taller comunitario con los aportes de las familias fundadoras. Es un símbolo de unión, resistencia y amor por nuestras raíces.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                            <h4 class="font-bold text-slate-900 mb-3 flex items-center">
+                                <i class="fa-solid fa-basket-shopping text-fundacion-verde mr-2"></i> Ingredientes
+                            </h4>
+                            <ul class="space-y-2 text-sm text-slate-600">
+                                <li class="flex items-center"><i class="fa-solid fa-check text-fundacion-verde mr-2 text-xs"></i> 500g de yuca y plátano verde</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-fundacion-verde mr-2 text-xs"></i> Mazorca tierna en trozos</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-fundacion-verde mr-2 text-xs"></i> Pollo o costilla de res al gusto</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-fundacion-verde mr-2 text-xs"></i> Cilantro, cebolla y ajo fresco</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-fundacion-verde mr-2 text-xs"></i> Papa criolla y papa sabanera</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                            <h4 class="font-bold text-slate-900 mb-3 flex items-center">
+                                <i class="fa-solid fa-fire-burner text-fundacion-rosado mr-2"></i> Preparación Paso a Paso
+                            </h4>
+                            <ol class="space-y-2 text-sm text-slate-600 list-decimal list-inside">
+                                <li>Hervir agua en una olla grande con sofrito base.</li>
+                                <li>Agregar los tubérculos duros (yuca, plátano) primero.</li>
+                                <li>Incorporar la carne elegida y dejar cocinar a fuego medio.</li>
+                                <li>Añadir las papas y mazorca en los últimos 20 minutos.</li>
+                                <li>Servir caliente con cilantro picado por encima.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-6 border-t border-slate-100">
+                    <span class="text-xs text-slate-500 font-medium">Recogido por: Equipo de Talleres Culturales</span>
+                    <button onclick="showToast('¡Receta guardada en tus favoritos!')" class="px-5 py-2.5 bg-fundacion-verde/10 text-fundacion-verde font-bold rounded-xl hover:bg-fundacion-verde hover:text-white transition text-sm">
+                        <i class="fa-solid fa-bookmark mr-2"></i> Guardar Receta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 2: VIDEOS DE LAS PERSONAS GRABADAS -->
+    <section id="videos" class="py-16 bg-slate-100/70 border-y border-slate-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-2">
+                        <div class="w-10 h-10 rounded-xl bg-fundacion-rosado/20 text-fundacion-rosado flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <span class="text-xs font-bold text-fundacion-rosado tracking-wider uppercase">Voces y Testimonios</span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-slate-900">Grabaciones de los Participantes</h2>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <label for="video-upload-input" class="cursor-pointer inline-flex items-center px-5 py-3 bg-fundacion-rosado text-white font-bold rounded-xl shadow-md hover:bg-pink-600 transition">
+                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Cargar Nuevo Video (.mp4)
+                    </label>
+                    <input type="file" id="video-upload-input" accept="video/*" class="hidden" onchange="handleVideoUpload(event)">
+                </div>
+            </div>
+
+            <!-- Contenedor de Videos -->
+            <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Video 1 por defecto -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md border border-slate-200/80 flex flex-col">
+                    <div class="relative bg-slate-900 aspect-video flex items-center justify-center">
+                        <video controls class="w-full h-full object-cover" poster="https://placehold.co/600x400/EC4899/ffffff?text=Testimonio+Don+Carlos">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Tu navegador no soporta reproducción de video.
+                        </video>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-fundacion-rosado uppercase">Taller #1</span>
+                            <h3 class="font-bold text-lg text-slate-900 mt-1">Don Carlos comparte su receta secreta</h3>
+                            <p class="text-sm text-slate-600 mt-2">Grabado durante la inauguración del ciclo gastronómico en la sede principal.</p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                            <span><i class="fa-solid fa-calendar mr-1"></i> Octubre 2026</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md text-slate-700 font-medium">Verificado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 2 por defecto -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md border border-slate-200/80 flex flex-col">
+                    <div class="relative bg-slate-900 aspect-video flex items-center justify-center">
+                        <video controls class="w-full h-full object-cover" poster="https://placehold.co/600x400/38BDF8/ffffff?text=Testimonio+Doña+Lucia">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Tu navegador no soporta reproducción de video.
+                        </video>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-fundacion-azul uppercase">Taller #2</span>
+                            <h3 class="font-bold text-lg text-slate-900 mt-1">Doña Lucía y los secretos de la huerta</h3>
+                            <p class="text-sm text-slate-600 mt-2">Conversatorio sobre cómo cultivar ingredientes orgánicos en casa.</p>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                            <span><i class="fa-solid fa-calendar mr-1"></i> Octubre 2026</span>
+                            <span class="bg-slate-100 px-2.5 py-1 rounded-md text-slate-700 font-medium">Verificado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 3: CARTILLA EN PDF -->
+    <section id="cartilla" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center space-x-3 mb-8">
+            <div class="w-10 h-10 rounded-xl bg-fundacion-azul/20 text-fundacion-azul flex items-center justify-center text-xl font-bold">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+            <div>
+                <span class="text-xs font-bold text-fundacion-azul tracking-wider uppercase">Material Educativo</span>
+                <h2 class="text-3xl font-extrabold text-slate-900">Cartilla Pedagógica Oficial</h2>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-sky-500 to-blue-600 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden flex flex-col lg:flex-row items-center justify-between">
+            <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl font-extrabold pointer-events-none">
+                PDF
+            </div>
+            <div class="lg:w-2/3 mb-8 lg:mb-0 z-10">
+                <div class="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold mb-4">
+                    Edición 2026 - Fundación Soporte Social
+                </div>
+                <h3 class="text-3xl sm:text-4xl font-extrabold mb-4">Cartilla de Sabores y Saberes Ancestrales</h3>
+                <p class="text-sky-100 text-base sm:text-lg mb-6 leading-relaxed">
+                    Hemos preparado un documento completo con todas las memorias recopiladas, fichas técnicas de recetas, fotografías y reflexiones de cada taller. Puedes leerlo directamente aquí o descargarlo en tu dispositivo.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="openPdfModal()" class="px-6 py-3.5 bg-white text-blue-600 font-bold rounded-2xl shadow-md hover:bg-sky-50 transition flex items-center">
+                        <i class="fa-solid fa-eye mr-2"></i> Vista Previa del PDF
+                    </button>
+                    <a href="#" onclick="showToast('Descargando cartilla en PDF...'); return false;" class="px-6 py-3.5 bg-slate-900/30 backdrop-blur-md border border-white/30 text-white font-bold rounded-2xl hover:bg-slate-900/50 transition flex items-center">
+                        <i class="fa-solid fa-download mr-2"></i> Descargar Cartilla (PDF)
+                    </a>
+                </div>
+            </div>
+            <div class="lg:w-1/3 flex justify-center z-10">
+                <div class="w-48 h-64 bg-white rounded-2xl shadow-2xl p-4 text-slate-800 flex flex-col justify-between transform rotate-3 hover:rotate-0 transition duration-300 border-4 border-white">
+                    <div class="custom-gradient h-24 rounded-xl flex items-center justify-center text-white font-bold text-center px-2 text-sm">
+                        CARTILLA OFICIAL
+                    </div>
+                    <div class="space-y-2">
+                        <div class="h-2 bg-slate-200 rounded w-full"></div>
+                        <div class="h-2 bg-slate-200 rounded w-4/5"></div>
+                        <div class="h-2 bg-slate-200 rounded w-2/3"></div>
+                    </div>
+                    <div class="text-[10px] text-slate-400 text-center font-bold">
+                        Fundación Soporte Social
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 4: AUDIOS SOBRE LAS RECETAS -->
+    <section id="audios" class="py-16 bg-slate-100/70 border-y border-slate-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center space-x-3 mb-8">
+                <div class="w-10 h-10 rounded-xl bg-fundacion-amarillo/30 text-yellow-800 flex items-center justify-center text-xl font-bold">
+                    <i class="fa-solid fa-headphones"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-yellow-700 tracking-wider uppercase">Cápsulas Sonoras</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900">Audios y Relatos de Cocina</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Audio Item 1 -->
+                <div class="bg-white p-6 rounded-3xl shadow-md border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full">Podcast Episodio 1</span>
+                            <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-stopwatch mr-1"></i> 3:45 min</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900 mb-2">La importancia del sofrito en nuestra cultura</h3>
+                        <p class="text-sm text-slate-600 mb-4">Escucha la explicación detallada de cómo se transmiten los condimentos de generación en generación.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <audio controls class="w-full">
+                            <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
+                    </div>
+                </div>
+
+                <!-- Audio Item 2 -->
+                <div class="bg-white p-6 rounded-3xl shadow-md border border-slate-200/80 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full">Podcast Episodio 2</span>
+                            <span class="text-xs text-slate-400 font-medium"><i class="fa-solid fa-stopwatch mr-1"></i> 5:12 min</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900 mb-2">Consejos de conservación de hierbas frescas</h3>
+                        <p class="text-sm text-slate-600 mb-4">Relato sonoro de los participantes del taller sobre trucos caseros de cocina saludable.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <audio controls class="w-full">
+                            <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 5: GALERÍA DE FOTOS (TALLER 1, TALLER 2, ETC.) -->
+    <section id="galeria" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+            <div>
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl bg-fundacion-verde/20 text-fundacion-verde flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-images"></i>
+                    </div>
+                    <span class="text-xs font-bold text-fundacion-verde tracking-wider uppercase">Memoria Gráfica</span>
+                    </div>
+                <h2 class="text-3xl font-extrabold text-slate-900">Galería de Encuentros y Talleres</h2>
+            </div>
+            <!-- Filtros de Talleres -->
+            <div class="mt-4 md:mt-0 flex flex-wrap gap-2">
+                <button onclick="filterGallery('all')" class="gallery-btn px-4 py-2 bg-slate-900 text-white font-semibold rounded-xl text-sm transition">Todos</button>
+                <button onclick="filterGallery('taller-1')" class="gallery-btn px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-xl text-sm transition hover:bg-slate-300">Primer Taller</button>
+                <button onclick="filterGallery('taller-2')" class="gallery-btn px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-xl text-sm transition hover:bg-slate-300">Segundo Taller</button>
+                <button onclick="filterGallery('taller-3')" class="gallery-btn px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-xl text-sm transition hover:bg-slate-300">Taller Cierre</button>
+            </div>
+        </div>
+
+        <!-- Grid de Fotos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="photo-gallery-grid">
+            <!-- Foto 1 - Taller 1 -->
+            <div class="gallery-item group relative overflow-hidden rounded-3xl shadow-md border border-slate-200 bg-white" data-category="taller-1">
+                <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+                    <img src="https://placehold.co/800x600/10B981/ffffff?text=Primer+Taller+-+Integracion" alt="Primer Taller" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-bold text-fundacion-verde uppercase">Primer Taller</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-1">Integración y bienvenida comunitaria</h3>
+                    <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> Sede Principal - Octubre 2026</p>
+                </div>
+            </div>
+
+            <!-- Foto 2 - Taller 1 -->
+            <div class="gallery-item group relative overflow-hidden rounded-3xl shadow-md border border-slate-200 bg-white" data-category="taller-1">
+                <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+                    <img src="https://placehold.co/800x600/EC4899/ffffff?text=Primer+Taller+-+Actividad" alt="Primer Taller Actividad" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-bold text-fundacion-rosado uppercase">Primer Taller</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-1">Dinámicas grupales y presentación</h3>
+                    <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> Sede Principal - Octubre 2026</p>
+                </div>
+            </div>
+
+            <!-- Foto 3 - Taller 2 -->
+            <div class="gallery-item group relative overflow-hidden rounded-3xl shadow-md border border-slate-200 bg-white" data-category="taller-2">
+                <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+                    <img src="https://placehold.co/800x600/38BDF8/ffffff?text=Segundo+Taller+-+Cocina" alt="Segundo Taller" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-bold text-fundacion-azul uppercase">Segundo Taller</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-1">Elaboración colectiva de recetas</h3>
+                    <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> Cocina Comunitaria - Octubre 2026</p>
+                </div>
+            </div>
+
+            <!-- Foto 4 - Taller 2 -->
+            <div class="gallery-item group relative overflow-hidden rounded-3xl shadow-md border border-slate-200 bg-white" data-category="taller-2">
+                <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+                    <img src="https://placehold.co/800x600/FACC15/1E293B?text=Segundo+Taller+-+Degustacion" alt="Segundo Taller Degustación" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-bold text-yellow-600 uppercase">Segundo Taller</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-1">Degustación y retroalimentación</h3>
+                    <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> Cocina Comunitaria - Octubre 2026</p>
+                </div>
+            </div>
+
+            <!-- Foto 5 - Taller 3 -->
+            <div class="gallery-item group relative overflow-hidden rounded-3xl shadow-md border border-slate-200 bg-white" data-category="taller-3">
+                <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+                    <img src="https://placehold.co/800x600/10B981/ffffff?text=Taller+Cierre+-+Entrega" alt="Taller Cierre" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-bold text-fundacion-verde uppercase">Taller Cierre</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-1">Entrega de cartillas impresas</h3>
+                    <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> Auditorio Central - Octubre 2026</p>
+                </div>
+            </div>
+
+            <!-- Foto 6 - Taller 3 -->
+            <div class="gallery-item group relative overflow-hidden rounded-3xl shadow-md border border-slate-200 bg-white" data-category="taller-3">
+                <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+                    <img src="https://placehold.co/800x600/EC4899/ffffff?text=Taller+Cierre+-+Foto+Grupal" alt="Taller Cierre Grupal" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-bold text-fundacion-rosado uppercase">Taller Cierre</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-1">Foto oficial de participantes</h3>
+                    <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-location-dot mr-1"></i> Auditorio Central - Octubre 2026</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 6: GUÍA PASO A PASO PARA WEEBLY -->
+    <section id="weebly-guide" class="py-16 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-fundacion-amarillo font-bold uppercase tracking-widest text-xs bg-fundacion-amarillo/10 px-3 py-1 rounded-full border border-fundacion-amarillo/20">Tutorial Exclusivo</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Paso a Paso para Subir esta Página a Weebly</h2>
+                <p class="text-slate-400 mt-3 text-base">
+                    Como Weebly utiliza un constructor visual de páginas, la manera más profesional y sencilla de incorporar todo este diseño unificado (con HTML y CSS integrados) es usando el bloque de código <code class="bg-slate-800 text-fundacion-rosado px-2 py-0.5 rounded">Embed Code</code>.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Paso 1 -->
+                <div class="bg-slate-800/80 p-8 rounded-3xl border border-slate-700/80 relative">
+                    <div class="absolute -top-4 -left-4 w-10 h-10 rounded-2xl bg-fundacion-verde text-white font-bold flex items-center justify-center text-lg shadow-lg">
+                        1
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 mt-2 text-fundacion-verde">Copia el Código Completo</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Todo el código de esta página está unificado en un solo archivo (HTML y CSS juntos). Copia todo el contenido de este bloque de código en tu portapapeles.
+                    </p>
+                    <div class="mt-6">
+                        <button onclick="copyCode()" class="w-full py-3 bg-fundacion-verde/20 hover:bg-fundacion-verde text-fundacion-verde hover:text-white font-bold rounded-xl transition text-sm flex items-center justify-center border border-fundacion-verde/30">
+                            <i class="fa-solid fa-copy mr-2"></i> Copiar Código al Portapapeles
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="bg-slate-800/80 p-8 rounded-3xl border border-slate-700/80 relative">
+                    <div class="absolute -top-4 -left-4 w-10 h-10 rounded-2xl bg-fundacion-azul text-white font-bold flex items-center justify-center text-lg shadow-lg">
+                        2
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 mt-2 text-fundacion-azul">Agrega el Elemento "Embed Code" en Weebly</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Entra a tu editor de Weebly, selecciona la página donde deseas mostrar la sección (o crea una nueva página en blanco) y arrastra el elemento <strong class="text-white">Embed Code</strong> (Incrustar código) desde el panel izquierdo hacia tu área de trabajo.
+                    </p>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="bg-slate-800/80 p-8 rounded-3xl border border-slate-700/80 relative">
+                    <div class="absolute -top-4 -left-4 w-10 h-10 rounded-2xl bg-fundacion-rosado text-white font-bold flex items-center justify-center text-lg shadow-lg">
+                        3
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 mt-2 text-fundacion-rosado">Pega y Publica</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Haz clic sobre el bloque en Weebly, selecciona <strong class="text-white">Edit Custom HTML</strong> y pega el código copiado. Haz clic en fuera del cuadro y presiona el botón <strong class="text-fundacion-amarillo">Publish</strong> en la esquina superior derecha de Weebly. ¡Listo!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Consejo extra para videos y PDF en Weebly -->
+            <div class="mt-12 bg-slate-800/40 border border-slate-700 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 rounded-2xl bg-fundacion-amarillo/20 text-fundacion-amarillo flex-shrink-0 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-white">¿Cómo alojar tus videos y tu cartilla PDF para Weebly?</h4>
+                        <p class="text-slate-300 text-sm mt-1">
+                            Para los videos, puedes subirlos a YouTube o Google Drive y reemplazar los enlaces de prueba. Para la cartilla PDF, puedes subir el archivo en la sección de documentos de Weebly o Google Drive y colocar el enlace directo en el botón de descarga.
+                        </p>
+                    </div>
+                </div>
+                <a href="#videos" class="px-6 py-3 bg-fundacion-amarillo text-slate-900 font-bold rounded-xl hover:bg-yellow-400 transition whitespace-nowrap text-sm shadow">
+                    Subir un video de prueba
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl custom-gradient flex items-center justify-center text-white font-extrabold text-xl">
+                    SS
+                </div>
+                <div>
+                    <span class="block font-bold text-white tracking-tight">Fundación Soporte Social</span>
+                    <span class="block text-xs text-slate-500">© 2026 Todos los derechos reservados.</span>
+                </div>
+            </div>
+            <div class="flex space-x-6 text-sm">
+                <a href="#receta" class="hover:text-fundacion-verde transition">Receta</a>
+                <a href="#videos" class="hover:text-fundacion-rosado transition">Videos</a>
+                <a href="#cartilla" class="hover:text-fundacion-azul transition">Cartilla PDF</a>
+                <a href="#audios" class="hover:text-fundacion-amarillo transition">Audios</a>
+                <a href="#galeria" class="hover:text-fundacion-verde transition">Galería</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE VISTA PREVIA PDF -->
+    <div id="pdf-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
+            <div class="p-6 bg-slate-900 text-white flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-file-pdf text-fundacion-rosado text-2xl"></i>
+                    <h3 class="font-bold text-lg">Vista Previa - Cartilla Pedagógica Oficial</h3>
+                </div>
+                <button onclick="closePdfModal()" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6 bg-slate-100 flex-1 overflow-y-auto flex flex-col items-center justify-center text-center">
+                <div class="bg-white p-12 rounded-2xl shadow border border-slate-200 max-w-lg w-full">
+                    <i class="fa-solid fa-book-bookmark text-6xl text-fundacion-azul mb-4"></i>
+                    <h4 class="font-extrabold text-xl text-slate-900 mb-2">Cartilla Interactiva de la Fundación</h4>
+                    <p class="text-sm text-slate-600 mb-6">El documento PDF se encuentra listo para su lectura o descarga en los dispositivos de los participantes.</p>
+                    <a href="#" onclick="showToast('Iniciando descarga del PDF...'); closePdfModal(); return false;" class="inline-flex items-center px-6 py-3 bg-fundacion-azul text-white font-bold rounded-xl hover:bg-blue-600 transition shadow">
+                        <i class="fa-solid fa-download mr-2"></i> Descargar Archivo PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de interactividad -->
+    <script>
+        // Menú móvil
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Sistema de notificaciones flotantes (Toast)
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+
+            msgEl.textContent = message;
+            if (isError) {
+                iconEl.className = "fa-solid fa-circle-exclamation text-rose-500 text-xl";
+            } else {
+                iconEl.className = "fa-solid fa-circle-check text-fundacion-verde text-xl";
+            }
+
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-32', 'opacity-0');
+            }, 3500);
+        }
+
+        // Copiar código al portapapeles
+        function copyCode() {
+            const htmlContent = document.documentElement.outerHTML;
+            
+            // Usar document.execCommand como respaldo seguro para iframe
+            const textarea = document.createElement('textarea');
+            textarea.value = htmlContent;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast('¡Código copiado al portapapeles con éxito!');
+                } else {
+                    showToast('No se pudo copiar automáticamente.', true);
+                }
+            } catch (err) {
+                showToast('Error al intentar copiar.', true);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Manejo de carga de videos dinámicos
+        function handleVideoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const url = URL.createObjectURL(file);
+            const grid = document.getElementById('video-grid');
+
+            const videoCard = document.createElement('div');
+            videoCard.className = "bg-white rounded-3xl overflow-hidden shadow-md border border-slate-200/80 flex flex-col animate-fade-in";
+            videoCard.innerHTML = `
+                <div class="relative bg-slate-900 aspect-video flex items-center justify-center">
+                    <video controls class="w-full h-full object-cover">
+                        <source src="${url}" type="${file.type}">
+                        Tu navegador no soporta reproducción de video.
+                    </video>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-fundacion-rosado uppercase">Nuevo Video Cargado</span>
+                        <h3 class="font-bold text-lg text-slate-900 mt-1">${file.name}</h3>
+                        <p class="text-sm text-slate-600 mt-2">Video grabado y cargado exitosamente por la comunidad.</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span><i class="fa-solid fa-calendar mr-1"></i> Hoy</span>
+                        <span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-md font-medium">Recién subido</span>
+                    </div>
+                </div>
+            `;
+
+            grid.prepend(videoCard);
+            showToast('¡Video cargado y agregado a la galería con éxito!');
+        }
+
+        // Filtro de galería de fotos
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.gallery-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-slate-900', 'text-white');
+                btn.classList.add('bg-slate-200', 'text-slate-700');
+            });
+            event.target.classList.remove('bg-slate-200', 'text-slate-700');
+            event.target.classList.add('bg-slate-900', 'text-white');
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal PDF
+        function openPdfModal() {
+            document.getElementById('pdf-modal').classList.remove('hidden');
+            document.getElementById('pdf-modal').classList.add('flex');
+        }
+
+        function closePdfModal() {
+            document.getElementById('pdf-modal').classList.remove('flex');
+            document.getElementById('pdf-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
